@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alex Tarot Top Learning</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #1f1f2e, #2c2c3e);
+      color: #f5f5f5;
+    }
+    .tarot-card {
+      background-color: #f5f5dc;
+      background-image: url('https://via.placeholder.com/150x220?text=Suerte');
+      background-size: cover;
+      border-radius: 1rem;
+      cursor: pointer;
+      position: relative;
+    }
+    .tarot-card::after {
+      content: "Alex Tarot";
+      position: absolute;
+      bottom: 5px;
+      right: 10px;
+      font-size: 0.75rem;
+      color: rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body class="p-4">
+
+  <header class="text-center mb-6">
+    <h1 class="text-4xl font-bold text-blue-900 animate__animated animate__fadeInDown">Alex Tarot Top Learning</h1>
+    <p class="mt-2 text-lg text-gray-300">Confía en tu intuición, la fortuna te sonríe hoy.</p>
+  </header>
+
+  <section class="bg-gray-800 p-4 rounded-xl shadow-lg mb-6">
+    <h2 class="text-xl font-bold mb-2">Instrucciones:</h2>
+    <ol class="list-decimal list-inside space-y-1">
+      <li>Realiza 3 respiraciones profundas y exhala, encuentra tu tranquilidad.</li>
+      <li>Frota tus manos durante 1 minuto y colócalas sobre la pantalla.</li>
+      <li>Haz clic en 5 cartas del Tarot.</li>
+      <li>Se mostrará el significado de cada carta.</li>
+      <li>Haz clic en "Lectura de cartas" para tu historia del día.</li>
+    </ol>
+  </section>
+
+  <div class="text-center mb-4">
+    <button onclick="mostrarCartas()" class="bg-indigo-700 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-full transition duration-300">¿Qué lecciones kármicas estoy destinado a aprender en esta vida?</button>
+  </div>
+
+  <section id="tarot-container" class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6 hidden"></section>
+
+  <section id="lectura" class="hidden p-4 bg-gray-900 rounded-xl">
+    <h2 class="text-xl font-bold mb-2">Tu lectura del día</h2>
+    <div id="resultado" class="space-y-2"></div>
+    <p id="historia" class="mt-4 font-medium text-yellow-300"></p>
+  </section>
+
+  <div class="flex justify-between items-center my-6">
+    <div class="text-lg">Costo Total de la Lectura: <span class="font-bold text-green-400">$50 MXN</span></div>
+    <a href="https://wa.me/525581527114" target="_blank" class="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg transition duration-300">
+      <img src="https://cdn-icons-png.flaticon.com/512/2626/2626272.png" class="w-6 h-6 animate__animated animate__pulse animate__infinite" alt="Lectura">
+      WhatsApp Alex Tarot Top Learning
+    </a>
+  </div>
+
+  <footer class="mt-10 border-t border-gray-600 pt-4 text-center text-sm">
+    <p>Contacto y redes sociales: <a href="https://www.facebook.com/Alecksxito/" target="_blank" class="text-blue-400 underline">Facebook</a></p>
+    <p>&copy; 2025 Alex Tarot Top Learning</p>
+  </footer>
+
+  <script>
+    const cartasTarot = ["El Loco", "La Muerte", "La Estrella", "El Sol", "El Diablo", "La Luna", "El Mundo", "La Justicia", "El Colgado", "El Emperador"];
+    let seleccionadas = [];
+
+    function mostrarCartas() {
+      const container = document.getElementById('tarot-container');
+      container.innerHTML = '';
+      document.getElementById('lectura').classList.add('hidden');
+      seleccionadas = [];
+      container.classList.remove('hidden');
+      for (let i = 0; i < cartasTarot.length; i++) {
+        const card = document.createElement('div');
+        card.className = 'tarot-card w-28 h-40 flex items-center justify-center text-xl font-bold text-center';
+        card.dataset.index = i;
+        card.onclick = () => girarCarta(card);
+        container.appendChild(card);
+      }
+    }
+
+    function girarCarta(card) {
+      if (seleccionadas.length >= 5 || card.classList.contains('girada')) return;
+      const index = card.dataset.index;
+      card.classList.add('girada', 'animate__animated', 'animate__flipInY', 'bg-gray-700');
+      card.innerHTML = `<div class='text-white'>${cartasTarot[index]}</div>`;
+      seleccionadas.push(cartasTarot[index]);
+      mostrarLectura();
+    }
+
+    function mostrarLectura() {
+      if (seleccionadas.length === 5) {
+        const resultado = document.getElementById('resultado');
+        const historia = document.getElementById('historia');
+        resultado.innerHTML = seleccionadas.map(carta => `Carta: <strong>${carta}</strong> - Significado relacionado al amor, salud, suerte, etc.`).join('<br>');
+
+        historia.textContent = `Hoy el universo conspira a tu favor: en el amor se presenta una nueva conexión, el trabajo se estabiliza, la salud se fortalece, la suerte está de tu lado y alejas las envidias.`;
+        document.getElementById('lectura').classList.remove('hidden');
+      }
+    }
+  </script>
+
+</body>
+</html>
